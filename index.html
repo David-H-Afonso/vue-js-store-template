@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlatziCommerce</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h3>Platzi Commerce</h3>
+        <button class="cart" v-on:click="cartOpen = !cartOpen">
+          Carro ({{ cart.length }})
+        </button>
+        <div class="cart-content" v-show="cartOpen">
+          <div
+            v-for="(prodCart, index) in cart"
+            :key="prodCart.name"
+            class="cart-content__product"
+            :class="{ 'bg-gray': index & 1 }"
+          >
+            <img
+              v-bind:src="prodCart.images[0].thumbnail"
+              :alt="prodCart.name.toUpperCase()"
+            />
+            <span>
+              {{ prodCart.name }} - $ {{ new
+              Intl.NumberFormat("es-CO").format(prodCart.price *
+              prodCart.quantity) }} ({{ prodCart.quantity }})
+            </span>
+          </div>
+          <br v-show="cart.length >= 1" />
+          <p>Total: $ {{total}}</p>
+        </div>
+      </header>
+      <main>
+        <px-product
+          v-for="product in products"
+          :key="product.name"
+          :product="product"
+          @sendToCart="addToCart($event)"
+        ></px-product>
+      </main>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      const { createApp } = Vue;
+
+      const app = createApp({
+        data() {
+          return {
+            products: [
+              {
+                name: "Camara",
+                price: 50,
+                stock: 6,
+                isNew: true,
+                isOffer: true,
+                content: `Lorem ipsum dolor sit amet consectetur
+                  adipisicing elit. Tenetur facilis at consectetur facere omnis repudiandae minima
+                  porro quis perspiciatis voluptatem nulla ratione dolor, iste ipsum repellat
+                  impedit, atque eius quisquam!`,
+                images: [
+                  {
+                    image: "./images/camara.jpg",
+                    thumbnail: "./images/camara-thumb.jpg",
+                  },
+                  {
+                    image: "./images/camara-2.jpg",
+                    thumbnail: "./images/camara-2-thumb.jpg",
+                  },
+                ],
+                quantity: 1,
+              },
+              {
+                name: "Audífonos",
+                price: 20,
+                stock: 10,
+                isNew: true,
+                isOffer: true,
+                content: `Lorem ipsum dolor sit amet consectetur
+                  adipisicing elit. Tenetur facilis at consectetur facere omnis repudiandae minima
+                  porro quis perspiciatis voluptatem nulla ratione dolor, iste ipsum repellat
+                  impedit, atque eius quisquam!`,
+                images: [
+                  {
+                    image: "./images/camara.jpg",
+                    thumbnail: "./images/camara-thumb.jpg",
+                  },
+                  {
+                    image: "./images/camara-2.jpg",
+                    thumbnail: "./images/camara-2-thumb.jpg",
+                  },
+                ],
+                quantity: 1,
+              },
+              {
+                name: "Auriculares",
+                price: 40,
+                stock: 1,
+                isNew: true,
+                isOffer: true,
+                content: `Lorem ipsum dolor sit amet consectetur
+                  adipisicing elit. Tenetur facilis at consectetur facere omnis repudiandae minima
+                  porro quis perspiciatis voluptatem nulla ratione dolor, iste ipsum repellat
+                  impedit, atque eius quisquam!`,
+                images: [
+                  {
+                    image: "./images/camara.jpg",
+                    thumbnail: "./images/camara-thumb.jpg",
+                  },
+                  {
+                    image: "./images/camara-2.jpg",
+                    thumbnail: "./images/camara-2-thumb.jpg",
+                  },
+                ],
+                quantity: 1,
+              },
+            ],
+
+            total: 0,
+
+            cart: [],
+            cartOpen: false,
+            haveDiscount: false,
+          };
+        },
+        methods: {
+          addToCart(product) {
+            const prodIndex = this.cart.findIndex(
+              (prod) => prod.name == product.name
+            );
+            if (prodIndex >= 0) {
+              this.cart[prodIndex].quantity += 1;
+            } else {
+              this.cart.push(product);
+              this.cart[0].quantity = 1;
+            }
+            product.stock -= 1;
+          },
+        },
+        watch: {
+          cart: {
+            handler(cart) {
+              this.total = cart.reduce((prev, curr) => {
+                const prevPrice = prev.price || prev;
+                const prevQuantity = prev.quantity || 1;
+                return prevPrice * prevQuantity + curr.price * curr.quantity;
+              }, 0);
+            },
+            deep: true,
+          },
+        },
+        created() {
+          fetch("https://my-json-server.typicode.com/iosamuel/demo/products")
+            .then((res) => res.json())
+            .then((data) => {
+              this.products = data;
+            });
+        },
+      });
+    </script>
+    <script src="./components/PxProducts.js"></script>
+    <script src="./components/PxHeader.js"></script>
+    <script>
+      app.mount("#app");
+    </script>
+  </body>
+</html>
