@@ -1,32 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title>VueDex</title>
   </head>
   <body>
     <header class="pokemon-main-title">
-      <a href="https://fontmeme.com/pokemon-font/"><img class="pokemon-main-title-image" src="https://fontmeme.com/permalink/200426/7d9de6c67bd83a0ed12684b0a4c0b6e1.png" alt="Vuedex" border="0"></a> 
+      <a href="https://github.com/David-H-Afonso"
+        ><img
+          class="pokemon-main-title-image"
+          src="https://i.imgur.com/scrcyJ3.png"
+          alt="Vuedex"
+        />
+        <p>Vue<span id="another_color">Dex</span></p></a
+      >
     </header>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry Dexbut Vue doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      >
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
-  <style>
-    
-.pokemon-main-title {
-  display: flex;
-  justify-content: center;
-}
-.pokemon-main-title-image {
-  width: 15vw;
-  height: 15vh;
-}
+
+  <style scoped>
+    @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+    .pokemon-main-title {
+      display: flex;
+      justify-content: center;
+    }
+    .pokemon-main-title-image {
+      width: 130px;
+      height: 100px;
+      margin-left: 30px;
+    }
+    .pokemon-main-title a {
+      font-family: "Press Start 2P", cursive;
+      text-decoration: none;
+      color: #41b883;
+    }
+    .pokemon-main-title a #another_color {
+      color: #34495e;
+    }
   </style>
 </html>
-
